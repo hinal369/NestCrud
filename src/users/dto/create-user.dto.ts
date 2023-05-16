@@ -1,1 +1,7 @@
-export class CreateUserDto {}
+export class CreateUserDto {
+    id        : number
+    firstName : string
+    lastName  : string 
+    age       : number
+    isActive  : boolean
+}

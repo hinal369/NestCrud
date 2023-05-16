@@ -10,26 +10,37 @@ export class UsersService {
 
   constructor(
     @InjectRepository(Users)
-    private usersRepository: Repository<Users>,
+    private  usersRepository: Repository<Users>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  create(createUserDto: CreateUserDto): Promise<Users>{
+    let user: Users = new Users();
+    user.firstName = createUserDto.firstName
+    user.lastName = createUserDto.lastName
+    user.age = createUserDto.age
+    user.isActive = createUserDto.isActive
+    return this.usersRepository.save(user);
   }
 
   findAll(): Promise<Users[]>  {
     return this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id) {
+    return this.usersRepository.findOne(id);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    let user: Users = new Users();
+    user.firstName = updateUserDto.firstName
+    user.lastName = updateUserDto.lastName
+    user.age = updateUserDto.age
+    user.isActive = updateUserDto.isActive
+    user.id = id
+    return this.usersRepository.save(user);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id) {
+    return this.usersRepository.remove(id);
   }
 }
