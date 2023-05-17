@@ -23,11 +23,15 @@ export class UsersService {
   }
 
   findAll(): Promise<Users[]>  {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      order : {
+        firstName : "DESC"
+      }
+    });
   }
 
-  findOne(id) {
-    return this.usersRepository.findOne(id);
+  findOne(id : number) : Promise<Users> {
+    return this.usersRepository.findOneBy({ id });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -40,7 +44,7 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  remove(id) {
-    return this.usersRepository.remove(id);
+  remove(id : number) {
+    return this.usersRepository.delete(id);
   }
 }
