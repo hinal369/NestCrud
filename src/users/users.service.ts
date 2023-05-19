@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,8 +30,21 @@ export class UsersService {
     });
   }
 
-  findOne(id : number) : Promise<Users> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id : number) : Promise<Users> {
+    try {
+      const data =  await this.usersRepository.findOneBy({ id });    
+      if (!data) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+      }
+      return data;
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        error: 'This is a custom message',
+      }, HttpStatus.FORBIDDEN, {
+        cause: error
+      });
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

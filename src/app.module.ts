@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { BookModule } from './book/book.module';
 
 @Module({
   imports: [
@@ -21,12 +22,13 @@ import { UsersModule } from './users/users.module';
         database: configService.get('DB_DATABASE'),
         synchronize: configService.get<boolean>('DB_SYNC'), 
         entities: [__dirname + '/**/*.entity{.ts, .js}'],
-        logging: true,  
+        // logging: true,  
         autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
-    UsersModule
+    UsersModule,
+    BookModule
   ],
   controllers: [AppController],
   providers: [AppService],
