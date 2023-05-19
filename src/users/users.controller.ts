@@ -1,14 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpStatus, UsePipes } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreatePipe } from './pipes/create.pipes';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body(new CreatePipe) createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
@@ -18,7 +19,10 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {
+  // @UsePipes(ParseIntPipe)
+  // findOne(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
+    findOne(@Param('id', ParseIntPipe) id: number) {
+    console.log(typeof id);
     return this.usersService.findOne(+id);
   }
 
