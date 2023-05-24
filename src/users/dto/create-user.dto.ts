@@ -1,18 +1,18 @@
 import { IsInt, IsString, IsBoolean } from "class-validator"
 
 export class CreateUserDto {
-    // @IsInt()
+    @IsInt()
     id: number
 
-    // @IsString()
+    @IsString()
     firstName: string
 
-    // @IsString()
+    @IsString()
     lastName : string 
 
-    // @IsInt()
+    @IsInt()
     age: number
 
-    // @IsBoolean()
+    @IsBoolean()
     isActive: boolean
 }
